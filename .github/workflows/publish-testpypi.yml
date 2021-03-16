@@ -3,6 +3,7 @@
 
 name: Nightly Upload to Test PyPI
 
+if: github.ref == 'refs/heads/master'
 on:
   schedule:
     - cron: '0 0 * * *'
