@@ -1,0 +1,49 @@
+# This is a basic workflow that is manually triggered
+
+name: Automate changelog update
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+
+jobs:
+  changelog:
+    name: Automated changelog update
+    #if: github.repository_owner == 'unitaryfund'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out mitiq
+        uses: actions/checkout@v2
+        with:
+            ref: master
+      - name: Get current version/tag number
+        run: |
+            export VERSION=${GITHUB_TAG/refs\/tags\/v/}
+            echo "{Version}={VERSION}" >> $GITHUB_ENV
+        env:
+            GITHUB_REF: $
+      - name: Update changelog for current version
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        issues: true
+        issuesWoLabels: true
+        pullRequests: true
+        prWoLabels: true
+        filterByMilestone: true
+        author: true
+        unreleasedOnly: true
+        output: CHANGELOG.md
+      - name: Commit changes to changelog.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        commit_message: Commit changes with info about a push to master
+        file_pattern: CHANGELOG.md
+        # To do : Check what default for author, issue number etc. is
