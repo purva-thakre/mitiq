@@ -31,6 +31,7 @@ jobs:
       - name: Update changelog for current version
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           pullRequests: true
           prWoLabels: true
           author: true
