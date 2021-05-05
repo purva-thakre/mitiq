@@ -1,3 +1,4 @@
+# THIS IS A PR FOR DUMMY PUSH
 # Contributing to Mitiq
 
 Contributions are welcome, and they are greatly appreciated, every little bit helps.
