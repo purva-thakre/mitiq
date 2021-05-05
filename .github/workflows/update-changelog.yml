@@ -35,11 +35,8 @@ jobs:
           prWoLabels: true
           author: true
           unreleasedOnly: true
-          compareLink: true
-          stripGeneratorNotice: true
           verbose: true
           simpleList: true
-          output: CHANGELOG.md
       - name: Commit changes to changelog.md
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
