@@ -31,16 +31,14 @@ jobs:
       - name: Update changelog for current version
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
-          token: $
           pullRequests: true
           prWoLabels: true
-          author: true
+          commit_author: true
           unreleasedOnly: true
           output: CHANGELOG.md
       - name: Commit changes to changelog.md
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          token: $
           commit_message: Commit changes with info about a push to master
           file_pattern: CHANGELOG.md
         # To do : Check what default for author, issue number etc. is
