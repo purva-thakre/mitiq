@@ -33,7 +33,7 @@ jobs:
         with:
           pullRequests: true
           prWoLabels: true
-          commit_author: true
+          author: true
           unreleasedOnly: true
           output: CHANGELOG.md
       - name: Commit changes to changelog.md
