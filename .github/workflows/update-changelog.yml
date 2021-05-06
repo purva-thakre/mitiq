@@ -6,37 +6,32 @@ name: Automate Changelog Update
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+   tags:
+      - v*
 
 jobs:
-  build:
-    name: "✏️ Changelog generation"
+   changelog:
+    name: Update Changelog
     runs-on: ubuntu-latest
     steps:
-      - name: Check out mitiq
+      - name: Get version from tag
+        env:
+          GITHUB_REF: $
+        run: |
+          export CURRENT_VERSION=${GITHUB_TAG/refs\/tags\/v/}
+          echo "::set-env name=CURRENT_VERSION::$CURRENT_VERSION"
+      - name: Checkout code
         uses: actions/checkout@v2
         with:
-            ref: master
-      - name: "✏️ Generate full changelog"
-        id: generate-full-changelog
+          ref: main
+      - name: Update Changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          headerLabel: "# 📑 Changelog"
-          issues: true
-          issuesWoLabels: true
+          token: $
           pullRequests: true
           prWoLabels: true
-          author: true
-          unreleased: true
-          compareLink: true
-          stripGeneratorNotice: true
-          verbose: true
-          base: true
-      - name: "🖨️ Print changelog to console"
-        run: cat CHANGELOG.md
-      - name: "📤 Upload changelog"
-        uses: actions/upload-artifact@v1.0.0
+          addSections: '{"documentation":{"prefix":"**Documentation:**","labels":["documentation"]}}'
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          name: "Changelog"
-          path: CHANGELOG.md
+          commit_message: Update Changelog for tag $
+          file_pattern: CHANGELOG.md
