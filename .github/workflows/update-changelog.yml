@@ -17,7 +17,7 @@ jobs:
             ref: master
       - name: Generate changelog
         id: changelog
-        uses: metcalfc/changelog-generator@main
+        uses: metcalfc/changelog-generator@v1.0.0
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the changelog
