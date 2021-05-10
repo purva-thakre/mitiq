@@ -1,0 +1,26 @@
+name: Automated Update of Changelog
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # To use this repository's private action, you must check out the repository
+      - name: Checkout Mitiq
+        uses: actions/checkout@v2
+        with:
+            ref: master
+      - name: Generate changelog
+        id: changelog
+        uses: metcalfc/changelog-generator@main
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get the changelog
+        run: echo "${{ steps.changelog.outputs.changelog }}"
+      - name: Get the changelog
+        run: echo "${{ steps.release.outputs.changelog }}"
