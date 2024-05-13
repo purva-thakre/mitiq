@@ -1,2 +1,2 @@
-pyquil~=3.5.4
+pyquil~=4.10.1
 cirq-rigetti>=1.0.0,<1.4.0
